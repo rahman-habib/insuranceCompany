@@ -18,16 +18,16 @@ class Insurance extends Jig{
             return false;
         }
     }
-    getClaimHistory(id){
+    getClaimHistory(no){
         try {
-            return this.insuranceAgent.filter((clm)=>clm.policyId==id);
+            return this.insuranceAgent.filter((clm)=>clm.policyNo==no);
         } catch (error) {
             return false;
         }
     }
-    getClaim(id){
+    getClaim(no){
         try {
-            let data=this.insuranceAgent.filter((clm)=>clm.policyId==id);
+            let data=this.insuranceAgent.filter((clm)=>clm.policyNo==no);
             data.reverse();
             return data[0];
         } catch (error) {
@@ -51,17 +51,17 @@ class Insurance extends Jig{
             return false;
         }
     }
-    getReplacmentHistory(id){
+    getReplacmentHistory(no){
         try {
-            return this.replacementAgency.filter((clm)=>clm.policyId==id);
+            return this.replacementAgency.filter((clm)=>clm.policyNo==no);
         } catch (error) {
             return false;
         }
 
     }
-    getReplacement(id){
+    getReplacement(no){
         try {
-            let data=this.replacementAgency.filter((clm)=>clm.policyId==id);
+            let data=this.replacementAgency.filter((clm)=>clm.policyNo==no);
         data.reverse();
         return data[0];
         } catch (error) {
@@ -85,18 +85,18 @@ class Insurance extends Jig{
             return false;
         }
     }
-    getSurveyors(id){
+    getSurveyors(no){
         try {
-            let data=this.surveyors.filter((clm)=>clm.policyId);
+            let data=this.surveyors.filter((clm)=>clm.policyNo==no);
             data.reverse();
             return data[0];
         } catch (error) {
             return false;
         }
     }
-    getSurveyorsHistory(id){
+    getSurveyorsHistory(no){
      try {
-        return this.surveyors.filter((clm)=>clm.policyId==id);
+        return this.surveyors.filter((clm)=>clm.policyNo==no);
 
      } catch (error) {
         return false;
@@ -118,18 +118,18 @@ class Insurance extends Jig{
             return false;
         }
     }
-    getAgencyGarage(id){
+    getAgencyGarage(no){
         try {
-            let data=this.AgencyGarage.filter((clm)=>clm.policyId==id);
+            let data=this.AgencyGarage.filter((clm)=>clm.policyNo==no);
             data.reverse();
             return data[0];
         } catch (error) {
             return false;
         }
     }
-    getAgencyGarageHistory(id){
+    getAgencyGarageHistory(no){
         try {
-            return this.AgencyGarage.filter((clm)=>clm.policyId==id);
+            return this.AgencyGarage.filter((clm)=>clm.policyNo==no);
 
         } catch (error) {
             return false;
