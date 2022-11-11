@@ -144,3 +144,5 @@ class Insurance extends Jig{
         }
     }
 }
+
+module.exports=Insurance;
