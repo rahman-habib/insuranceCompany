@@ -126,6 +126,7 @@ async(req,res)=>{
         vehicleNo:data.vehicleNo,
         driverName:data.driverName,
         expiryDate:data.expiryDate,
+        links:data.links,
         status:req.body.status,
        };
        newInsurance.claim(newClaim);
@@ -142,11 +143,76 @@ async(req,res)=>{
         vehicleNo:data.vehicleNo,
         driverName:data.driverName,
         expiryDate:data.expiryDate,
+        links:data.links,
         status:req.body.status,
         txnId:txnId,
        };
      
        newInsurance.appendTxIdClaim(obj);
+       return res.status(200).json({
+        msg: "Claim saved in blockchain",
+        txnid:txnId,
+       });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({Error:error});
+    }
+   
+
+}
+);
+route.post(
+    "/assign-assessment/:no", [
+    check("status", "status is required!").not().isEmpty()
+    
+    
+],
+async(req,res)=>{
+    const errors=validationResult(req);
+    if(!errors.isEmpty()){
+        console.log(errors);
+        return res.status(400).json({errors:errors.array()});
+    }
+    
+    try {
+        await newInsurance.sync();
+        const data=newInsurance.getClaim(req.params.no);
+        await newInsurance.sync();
+       let newClaim={
+        licenceNo:data.licenceNo,
+        modelNo:data.modelNo,
+        policyNo:data.policyNo,
+        vehicleNo:data.vehicleNo,
+        driverName:data.driverName,
+        expiryDate:data.expiryDate,
+        links:data.links,
+        status:req.body.status,
+       };
+       newInsurance.claim(newClaim);
+       await newInsurance.sync();
+       newInsurance.requestAgencyGarage(newClaim);
+       await newInsurance.sync();
+       console.log("owner: ",newInsurance.owner);
+       console.log("location: ",newInsurance.location);
+       console.log("origin: ",newInsurance.origin);
+       let txnId=newInsurance.location.slice(0,-3);
+       console.log("txnId: ",txnId)
+       let obj={
+        licenceNo:data.licenceNo,
+        modelNo:data.modelNo,
+        policyNo:data.policyNo,
+        vehicleNo:data.vehicleNo,
+        driverName:data.driverName,
+        expiryDate:data.expiryDate,
+        links:data.links,
+        status:req.body.status,
+        txnId:txnId,
+       };
+     
+       newInsurance.appendTxIdClaim(obj);
+       await newInsurance.sync();
+       newInsurance.appendTxIdAgencyGarage(obj);
+       
        return res.status(200).json({
         msg: "Claim saved in blockchain",
         txnid:txnId,

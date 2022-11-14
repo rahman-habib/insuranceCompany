@@ -37,6 +37,7 @@ app.get("/", (req, res) => {
     });
 });
 app.use("/api/insuranceAgent", require('./routes/insuranceAgent'));
+app.use("/api/agencyGarage", require('./routes/agencyGarage'));
 
 app.listen(
     process.env.PORT,
