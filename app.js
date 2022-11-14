@@ -36,6 +36,7 @@ app.get("/", (req, res) => {
         BSV_Blockchain: "You are NOT AUTHORIZED! Please leave imidiately.",
     });
 });
+app.use("/api/insuranceAgent", require('./routes/insuranceAgent'));
 
 app.listen(
     process.env.PORT,

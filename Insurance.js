@@ -9,7 +9,7 @@ class Insurance extends Jig{
         this.AgencyGarage=[];
        
     }
-    Claim(claim){
+    claim(claim){
         try {
             console.log("InitiateClaim :", claim);
             this.insuranceAgent.push(claim);
