@@ -38,6 +38,7 @@ app.get("/", (req, res) => {
 });
 app.use("/api/insuranceAgent", require('./routes/insuranceAgent'));
 app.use("/api/agencyGarage", require('./routes/agencyGarage'));
+app.use("/api/policyHolder", require('./routes/policyHolder'));
 
 app.listen(
     process.env.PORT,

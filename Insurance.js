@@ -4,8 +4,7 @@ const run=new Run({network:'mock'})
 class Insurance extends Jig{
     init(){
         this.insuranceAgent=[];
-        this.replacementAgency=[];
-        this.surveyors=[];
+        this.policyHolder=[];
         this.AgencyGarage=[];
        
     }
@@ -18,16 +17,16 @@ class Insurance extends Jig{
             return false;
         }
     }
-    getClaimHistory(no){
+    getClaimHistory(id){
         try {
-            return this.insuranceAgent.filter((clm)=>clm.policyNo==no);
+            return this.insuranceAgent.filter((clm)=>clm.claimId==id);
         } catch (error) {
             return false;
         }
     }
-    getClaim(no){
+    getClaim(id){
         try {
-            let data=this.insuranceAgent.filter((clm)=>clm.policyNo==no);
+            let data=this.insuranceAgent.filter((clm)=>clm.claimId==id);
             data.reverse();
             return data[0];
         } catch (error) {
@@ -43,68 +42,35 @@ class Insurance extends Jig{
         }
 
     }
-    createReplacementRequest(claim){
+ 
+    requestPolicyHolder(claim){
         try {
-            this.replacementAgency.push(claim);
+            this.policyHolder.push(claim);
             return true;
         } catch (error) {
             return false;
         }
     }
-    getReplacmentHistory(no){
+    getPolicyHolder(id){
         try {
-            return this.replacementAgency.filter((clm)=>clm.policyNo==no);
-        } catch (error) {
-            return false;
-        }
-
-    }
-    getReplacement(no){
-        try {
-            let data=this.replacementAgency.filter((clm)=>clm.policyNo==no);
-        data.reverse();
-        return data[0];
-        } catch (error) {
-            return false;
-        }
-    
-    }
-    appendTxIdReplacement(claim){
-        try {
-            this.replacementAgency[this.replacementAgency.length-1]=claim;
-            return true;
-        } catch (error) {
-            return false;
-        }
-    }
-    requestSurveyors(claim){
-        try {
-            this.surveyors.push(claim);
-            return true;
-        } catch (error) {
-            return false;
-        }
-    }
-    getSurveyors(no){
-        try {
-            let data=this.surveyors.filter((clm)=>clm.policyNo==no);
+            let data=this.policyHolder.filter((clm)=>clm.claimId==id);
             data.reverse();
             return data[0];
         } catch (error) {
             return false;
         }
     }
-    getSurveyorsHistory(no){
+    getPolicyHolderHistory(id){
      try {
-        return this.surveyors.filter((clm)=>clm.policyNo==no);
+        return this.policyHolder.filter((clm)=>clm.claimId==id);
 
      } catch (error) {
         return false;
      }
     }
-    appendTxIdSurveyors(claim){
+    appendTxIdPolicyHolder(claim){
         try {
-            this.surveyors[this.surveyors.length-1]=claim;
+            this.policyHolder[this.policyHolder.length-1]=claim;
         return true;
         } catch (error) {
             return false;
@@ -118,18 +84,18 @@ class Insurance extends Jig{
             return false;
         }
     }
-    getAgencyGarage(no){
+    getAgencyGarage(id){
         try {
-            let data=this.AgencyGarage.filter((clm)=>clm.policyNo==no);
+            let data=this.AgencyGarage.filter((clm)=>clm.claimId==id);
             data.reverse();
             return data[0];
         } catch (error) {
             return false;
         }
     }
-    getAgencyGarageHistory(no){
+    getAgencyGarageHistory(id){
         try {
-            return this.AgencyGarage.filter((clm)=>clm.policyNo==no);
+            return this.AgencyGarage.filter((clm)=>clm.claimId==id);
 
         } catch (error) {
             return false;
