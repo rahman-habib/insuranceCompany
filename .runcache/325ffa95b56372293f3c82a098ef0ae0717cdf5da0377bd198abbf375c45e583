@@ -1,0 +1,1 @@
+{"reason":"TrustError: Cannot load untrusted code via state: 04d2bffbd7b20757035dec39ed4d5dad57acda2bc2d91877a0af153c6d256e54\n\nHint: Trust this txid using run.trust(txid) if you know it is safe","untrusted":"04d2bffbd7b20757035dec39ed4d5dad57acda2bc2d91877a0af153c6d256e54"}

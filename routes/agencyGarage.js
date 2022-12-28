@@ -17,7 +17,7 @@ async(req,res)=>{
     
     try {
         await newInsurance.sync();
-        const data=newInsurance.getClaim(req.params.id);
+        const data=newInsurance.getAgencyGarage(req.params.id);
         await newInsurance.sync();
        let newClaim={
                 claimId:data.claimId,
@@ -40,10 +40,15 @@ async(req,res)=>{
                 email:data.email,
                 mobileNo:data.mobileNo,
                 status:req.body.status.status,
+                approve_time: data.approve_time,      
+                assigned_date:data.assigned_date,
+                agency_garage_name:data.agency_garage_name,
+                branch_name:data.branch_name,
                 internalComments:data.internalComments,
                 externalComments:data.externalComments,
                 remarks:req.body.status.remarks,
-                rejectionReasion:req.body.status.rejectionReasion
+                rejectionReasion:req.body.status.rejectionReasion,
+                rejection_time:req.body.status.rejection_time
             };
        
        newInsurance.requestAgencyGarage(newClaim);
@@ -76,9 +81,14 @@ async(req,res)=>{
         email:data.email,
         mobileNo:data.mobileNo,
         status:req.body.status.status,
+        approve_time: data.approve_time,      
+        assigned_date:data.assigned_date,
+        agency_garage_name:data.agency_garage_name,
+        branch_name:data.branch_name,
         internalComments:data.internalComments,
         externalComments:data.externalComments,
         remarks:req.body.status.remarks,
+        rejection_time:req.body.status.rejection_time,
         rejectionReasion:req.body.status.rejectionReasion,
         txnId:txnId,
        };
@@ -106,7 +116,11 @@ route.post(
 
     check("parts", "parts is required!").not().isEmpty(),
     check("services", "services is required!").not().isEmpty(),
-    check("estimate_day_no", "estimate_day_no is required!").not().isEmpty()
+    check("estimate_day_no", "estimate_day_no is required!").not().isEmpty(),
+    check("status", "status is required!").not().isEmpty(),
+    check("total_estimate", "total_estimate is required!").not().isEmpty(),
+    check("vehicle_parts_amount", "vehicle_parts_amount is required!").not().isEmpty(),
+    check("vehicle_services_amount", "vehicle_services_amount is required!").not().isEmpty(),
     
     
 ],
@@ -141,6 +155,13 @@ async(req,res)=>{
                 name:data.name,
                 email:data.email,
                 mobileNo:data.mobileNo,
+                approve_time: data.approve_time,      
+                assigned_date:data.assigned_date,
+                agency_garage_name:data.agency_garage_name,
+                branch_name:data.branch_name,
+                total_estimate:req.body.total_estimate,
+                vehicle_parts_amount:req.body.vehicle_parts_amount,
+                vehicle_services_amount:req.body.vehicle_services_amount,
                 internalComments:data.internalComments,
                 externalComments:data.externalComments,
                 status:req.body.status,
@@ -178,6 +199,13 @@ async(req,res)=>{
                 name:data.name,
                 email:data.email,
                 mobileNo:data.mobileNo,
+                approve_time: data.approve_time,      
+                assigned_date:data.assigned_date,
+                agency_garage_name:data.agency_garage_name,
+                branch_name:data.branch_name,
+                total_estimate:req.body.total_estimate,
+                vehicle_parts_amount:req.body.vehicle_parts_amount,
+                vehicle_services_amount:req.body.vehicle_services_amount,
                 internalComments:data.internalComments,
                 externalComments:data.externalComments,
                 status:req.body.status,
@@ -275,7 +303,7 @@ async(req,res)=>{
 route.post(
     "/delivery-ready/:id", [
     check("status", "status is required!").not().isEmpty(),
-    check("remarks", "remarks is required!").not().isEmpty(),
+    check("deliveryRemarks", "deliveryRemarks is required!").not().isEmpty(),
     check("deliveryReadyFor", "deliveryReadyFor is required!").not().isEmpty()
 
 
@@ -312,6 +340,13 @@ route.post(
                 name: data.name,
                 email: data.email,
                 mobileNo: data.mobileNo,
+                approve_time: data.approve_time,      
+                assigned_date:data.assigned_date,
+                agency_garage_name:data.agency_garage_name,
+                branch_name:data.branch_name,
+                total_estimate:data.total_estimate,
+                vehicle_parts_amount:data.vehicle_parts_amount,
+                vehicle_services_amount:data.vehicle_services_amount,
                 internalComments: data.internalComments,
                 externalComments: data.externalComments,
                 netTotal: data.netTotal,
@@ -319,8 +354,9 @@ route.post(
                 parts: data.parts,
                 services: data.services,
                 estimate_day_no: data.estimate_day_no,
+                repairRemarks: data.repairRemarks,
+                deliveryRemarks: req.body.deliveryRemarks,
                 status: req.body.status,
-                remarks: req.body.remarks,
                 deliveryReadyFor: req.body.deliveryReadyFor
                 
             };
@@ -356,6 +392,13 @@ route.post(
                 name: data.name,
                 email: data.email,
                 mobileNo: data.mobileNo,
+                approve_time: data.approve_time,      
+                assigned_date:data.assigned_date,
+                agency_garage_name:data.agency_garage_name,
+                branch_name:data.branch_name,
+                total_estimate:data.total_estimate,
+                vehicle_parts_amount:data.vehicle_parts_amount,
+                vehicle_services_amount:data.vehicle_services_amount,
                 internalComments: data.internalComments,
                 externalComments: data.externalComments,
                 netTotal: data.netTotal,
@@ -363,8 +406,9 @@ route.post(
                 parts: data.parts,
                 services: data.services,
                 estimate_day_no: data.estimate_day_no,
+                repairRemarks: data.repairRemarks,
                 status: req.body.status,
-                remarks: req.body.remarks,
+                deliveryRemarks: req.body.deliveryRemarks,
                 deliveryReadyFor: req.body.deliveryReadyFor,
                 txnId: txnId,
             };
@@ -392,7 +436,7 @@ route.post(
 route.post(
     "/deliver-vehicle/:id", [
     check("status", "status is required!").not().isEmpty(),
-    check("remarks", "remarks is required!").not().isEmpty(),
+    check("deliveredRemarks", "deliveredRemarks is required!").not().isEmpty(),
 
 
 ],
@@ -428,6 +472,13 @@ route.post(
                 name: data.name,
                 email: data.email,
                 mobileNo: data.mobileNo,
+                approve_time: data.approve_time,      
+                assigned_date:data.assigned_date,
+                agency_garage_name:data.agency_garage_name,
+                branch_name:data.branch_name,
+                total_estimate:data.total_estimate,
+                vehicle_parts_amount:data.vehicle_parts_amount,
+                vehicle_services_amount:data.vehicle_services_amount,
                 internalComments: data.internalComments,
                 externalComments: data.externalComments,
                 netTotal: data.netTotal,
@@ -436,8 +487,9 @@ route.post(
                 services: data.services,
                 estimate_day_no: data.estimate_day_no,
                 status: req.body.status,
-                remarksFinal: req.body.remarksFinal,
-                remarks: data.remarks,
+                deliveredRemarks: req.body.deliveredRemarks,
+                repairRemarks: data.repairRemarks,
+                deliveryRemarks: data.deliveryRemarks,
                 deliveryReadyFor: data.deliveryReadyFor
                 
             };
@@ -473,6 +525,13 @@ route.post(
                 name: data.name,
                 email: data.email,
                 mobileNo: data.mobileNo,
+                approve_time: data.approve_time,      
+                assigned_date:data.assigned_date,
+                agency_garage_name:data.agency_garage_name,
+                branch_name:data.branch_name,
+                total_estimate:data.total_estimate,
+                vehicle_parts_amount:data.vehicle_parts_amount,
+                vehicle_services_amount:data.vehicle_services_amount,
                 internalComments: data.internalComments,
                 externalComments: data.externalComments,
                 netTotal: data.netTotal,
@@ -481,9 +540,140 @@ route.post(
                 services: data.services,
                 estimate_day_no: data.estimate_day_no,
                 status: req.body.status,
-                remarksFinal: req.body.remarks,
-                remarks: data.remarks,
+                deliveredRemarks: req.body.deliveredRemarks,
+                repairRemarks: data.repairRemarks,
+                deliveryRemarks: data.deliveryRemarks,
                 deliveryReadyFor: data.deliveryReadyFor,
+                txnId: txnId,
+            };
+
+
+            newInsurance.appendTxIdClaim(obj);
+            await newInsurance.sync();
+            newInsurance.appendTxIdPolicyHolder(obj);
+            await newInsurance.sync();
+            newInsurance.appendTxIdAgencyGarage(obj);
+            return res.status(200).json({
+                msg: "Claim saved in blockchain",
+                txnid: txnId,
+            });
+
+
+        } catch (error) {
+            console.log(error);
+            return res.status(500).json({ Error: error });
+        }
+
+
+    }
+);
+route.post(
+    "/under-repair/:id", [
+    check("status", "status is required!").not().isEmpty(),
+    check("repairRemarks", "repairRemarks is required!").not().isEmpty(),
+   
+
+
+],
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            console.log(errors);
+            return res.status(400).json({ errors: errors.array() });
+        }
+
+        try {
+            await newInsurance.sync();
+            const data = newInsurance.getAgencyGarage(req.params.id);
+            await newInsurance.sync();
+
+            let newClaim = {
+                claimId: data.claimId,
+                claimType: data.claimType,
+                repairOption: data.repairOption,
+                incidentDate: data.incidentDate,
+                region: data.region,
+                area: data.area,
+                comments: data.comments,
+                time: data.time,
+                documents: data.documents,
+                policyNo: data.policyNo,
+                policyType: data.policyType,
+                policyValidity: data.policyValidity,
+                carNo: data.carNo,
+                model: data.model,
+                make: data.make,
+                civilId: data.civilId,
+                name: data.name,
+                email: data.email,
+                mobileNo: data.mobileNo,
+                approve_time: data.approve_time,      
+                assigned_date:data.assigned_date,
+                agency_garage_name:data.agency_garage_name,
+                branch_name:data.branch_name,
+                total_estimate:data.total_estimate,
+                vehicle_parts_amount:data.vehicle_parts_amount,
+                vehicle_services_amount:data.vehicle_services_amount,
+                internalComments: data.internalComments,
+                externalComments: data.externalComments,
+                netTotal: data.netTotal,
+                koPay: data.koPay,
+                parts: data.parts,
+                services: data.services,
+                estimate_day_no: data.estimate_day_no,
+                status: req.body.status,
+                repairRemarks: req.body.repairRemarks,
+                
+                
+            };
+
+            newInsurance.claim(newClaim);
+            await newInsurance.sync();
+            newInsurance.requestPolicyHolder(newClaim);
+            await newInsurance.sync();
+            newInsurance.requestAgencyGarage(newClaim);
+            await newInsurance.sync();
+            console.log("owner: ", newInsurance.owner);
+            console.log("location: ", newInsurance.location);
+            console.log("origin: ", newInsurance.origin);
+            let txnId = newInsurance.location.slice(0, -3);
+            console.log("txnId: ", txnId)
+            let obj = {
+                claimId: data.claimId,
+                claimType: data.claimType,
+                repairOption: data.repairOption,
+                incidentDate: data.incidentDate,
+                region: data.region,
+                area: data.area,
+                comments: data.comments,
+                time: data.time,
+                documents: data.documents,
+                policyNo: data.policyNo,
+                policyType: data.policyType,
+                policyValidity: data.policyValidity,
+                carNo: data.carNo,
+                model: data.model,
+                make: data.make,
+                civilId: data.civilId,
+                name: data.name,
+                email: data.email,
+                mobileNo: data.mobileNo,
+                approve_time: data.approve_time,      
+                assigned_date:data.assigned_date,
+                agency_garage_name:data.agency_garage_name,
+                branch_name:data.branch_name,
+                total_estimate:data.total_estimate,
+                vehicle_parts_amount:data.vehicle_parts_amount,
+                vehicle_services_amount:data.vehicle_services_amount,
+                internalComments: data.internalComments,
+                externalComments: data.externalComments,
+                netTotal: data.netTotal,
+                koPay: data.koPay,
+                parts: data.parts,
+                services: data.services,
+                estimate_day_no: data.estimate_day_no,
+                status: req.body.status,
+                repairRemarks: req.body.repairRemarks,
                 txnId: txnId,
             };
 
